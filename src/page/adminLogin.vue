@@ -1,6 +1,7 @@
 <template>
     <div class="login">
-        <el-form :model="loginFromData" status-icon :rules="rules_login" ref="loginFromData" label-width="100px" class="demo-ruleForm loginFrom">
+        <el-form :model="loginFromData" status-icon :rules="rules_login" ref="loginFromData" label-width="100px" class="demo-ruleForm loginFrom"
+            v-loading="loginLoading">
             <el-form-item label="管理员" prop="admin">
                 <el-input type="text" v-model="loginFromData.admin" auto-complete="off"></el-input>
             </el-form-item>
@@ -13,7 +14,8 @@
             </el-form-item>
         </el-form>
         <el-dialog title="管理员注册" :close-on-click-modal="false" :modal="true" :visible.sync="dialogTableVisible">
-            <el-form :model="registeFormData" status-icon :rules="rules_register" ref="registeFormData" label-width="100px" class="demo-ruleForm registerFrom">
+            <el-form :model="registeFormData" status-icon :rules="rules_register" v-loading="registeLoading" ref="registeFormData" label-width="100px"
+                class="demo-ruleForm registerFrom">
                 <el-form-item label="管理员" prop="admin">
                     <el-input type="text" v-model="registeFormData.admin" auto-complete="off"></el-input>
                 </el-form-item>
@@ -36,10 +38,12 @@
     export default {
         data() {
             return {
+                // 登录表信息
                 loginFromData: {
                     admin: '',
                     passWord: '',
                 },
+                // 登录表验证规则
                 rules_login: {
                     admin: [{
                         validator: async (rule, value, callback) => {
@@ -58,11 +62,13 @@
                         trigger: 'blur'
                     }],
                 },
+                // 注册表信息
                 registeFormData: {
                     admin: '',
                     passWord: '',
                     sencondPassWord: ''
                 },
+                // 注册表规则
                 rules_register: {
                     admin: [{
                         validator: async (rule, value, callback) => {
@@ -93,13 +99,18 @@
                         trigger: 'blur'
                     }]
                 },
-                dialogTableVisible: false
+                // 弹窗
+                dialogTableVisible: false,
+                loginLoading: false,
+                registeLoading: false
             };
         },
         methods: {
             submitForm(formName) {
                 this.$refs[formName].validate(async (valid) => {
+                    // 表单验证无误
                     if (valid) {
+                        this.loginLoading = true;
                         const res = await Api.adminLogin({
                             user_name: this.loginFromData.admin,
                             password: this.loginFromData.passWord
@@ -107,6 +118,7 @@
                         if (res.data) {
                             const status = res.data.status;
                             const msg = res.data.msg;
+                            // 登录成功
                             if (status == 1) {
                                 this.$message({
                                     type: 'success',
@@ -115,17 +127,23 @@
                                         this.$router.replace({
                                             path: '/homePage'
                                         })
+                                        this.loginLoading = false;
                                     }
                                 });
 
-                            } else {
+                            } 
+                            // 登录失败
+                            else {
                                 this.$message({
                                     type: 'warning',
                                     message: msg
                                 });
+                                this.loginLoading = false;
                             }
                         }
-                    } else {
+                    } 
+                    // 表单正确
+                    else {
                         console.log('error submit!!');
                         return false;
                     }
@@ -133,14 +151,17 @@
             },
             registeForm(formName) {
                 this.$refs[formName].validate((valid) => {
+                    // 表单验证无误
                     if (valid) {
                         (async () => {
+                            this.registeLoading = true;
                             const res = await Api.adminRegister({
                                 user_name: this.registeFormData.admin,
                                 password: this.registeFormData.sencondPassWord
                             })
                             const msg = res.data.message;
                             const status = res.data.status;
+                            // 注册成功
                             if (status == 1) {
                                 this.$message({
                                     type: 'success',
@@ -148,19 +169,24 @@
                                     onClose: () => {
                                         this.$refs[formName].resetFields();
                                         this.dialogTableVisible = false;
+                                        this.registeLoading = false;
                                     }
                                 });
-                            } else {
+                            } 
+                            // 注册失败
+                            else {
                                 this.$message({
                                     type: 'warning',
                                     message: msg,
                                     onClose: () => {
-
+                                        this.registeLoading = false;
                                     }
                                 });
                             }
                         })()
-                    } else {
+                    }
+                    // 表单正确
+                    else {
                         console.log('error submit!!');
                         return false;
                     }
