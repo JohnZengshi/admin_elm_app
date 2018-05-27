@@ -1,8 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import adminLogin from '../view/adminLogin';
-import homePage from '../view/homePage';
+import adminLogin from '../page/adminLogin';
+import homePage from '../page/homePage';
+import path1 from '../page/view/path1';
+import path2 from '../page/view/path2';
+import register from '../page/view/register'
 // const adminLogin = r => require.ensure([], () => r(require('@/view/adminLogin')), 'adminLogin');
 Vue.use(Router);
 const routes = [{
@@ -10,11 +13,21 @@ const routes = [{
         redirect: '/adminLogin',
     }, {
         path: '/adminLogin',
-        component: adminLogin
+        component: adminLogin,
+        children: []
     },
     {
         path: '/homePage',
-        component: homePage
+        component: homePage,
+        children: [{
+                path: 'path1',
+                component: path1
+            },
+            {
+                path: 'path2',
+                component: path2
+            }
+        ]
     }
 ]
 
