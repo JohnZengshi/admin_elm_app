@@ -1,7 +1,6 @@
 <template>
     <div id="app" class="fillcontain">
-        <h1>主页</h1>
-        <!-- <router-view></router-view> -->
+        <router-view></router-view>
     </div>
 </template>
 <script>
@@ -11,6 +10,8 @@
 
 </script>
 <style lang="less">
-
-
+    #app{
+        width: 100%;
+        height: 100%;
+    }
 </style>
