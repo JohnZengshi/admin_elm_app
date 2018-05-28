@@ -9,7 +9,12 @@ const adminRegister = async (data) => {
     const res = await request('POST', data, testApi + '/admin/register');
     return res;
 }
+const checkAdminLogin = async (data) => {
+    const res = await request('GET', data, testApi + '/admin/info?t=' + new Date().getTime().toString());
+    return res;
+}
 export default {
     adminLogin,
-    adminRegister
+    adminRegister,
+    checkAdminLogin
 }
