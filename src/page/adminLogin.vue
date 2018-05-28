@@ -35,6 +35,11 @@
 </template>
 <script>
     import Api from '../api/api';
+    import {
+        mapMutations,
+        mapActions,
+        mapState
+    } from 'vuex';
     export default {
         data() {
             return {
@@ -105,7 +110,17 @@
                 registeLoading: false
             };
         },
+        mounted() {
+            // console.log(this.adminInfo)
+            if (!this.adminInfo.id) {
+                this.checkAdminLogin();
+            }
+        },
+        computed: {
+            ...mapState(['adminInfo'])
+        },
         methods: {
+            ...mapActions(['checkAdminLogin']),
             submitForm(formName) {
                 this.$refs[formName].validate(async (valid) => {
                     // 表单验证无误
@@ -131,7 +146,7 @@
                                     }
                                 });
 
-                            } 
+                            }
                             // 登录失败
                             else {
                                 this.$message({
@@ -141,7 +156,7 @@
                                 this.loginLoading = false;
                             }
                         }
-                    } 
+                    }
                     // 表单正确
                     else {
                         console.log('error submit!!');
@@ -172,7 +187,7 @@
                                         this.registeLoading = false;
                                     }
                                 });
-                            } 
+                            }
                             // 注册失败
                             else {
                                 this.$message({
