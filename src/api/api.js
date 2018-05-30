@@ -16,13 +16,20 @@ const checkAdminLogin = async (data) => {
     return res;
 }
 // 获取api请求总数
-const apiCount = async (data) => {
+const apiAllCount = async (data) => {
     const res = await request('GET', data, testApi + '/statis/api/count');
     return res;
+}
+// 获取当日api请求总数
+const apiCount = async (data) => {
+    const res = await request('GET', data, testApi + '/statis/api/' + data + '/count');
+    return res;
+
 }
 export default {
     adminLogin,
     adminRegister,
     checkAdminLogin,
+    apiAllCount,
     apiCount
 }
