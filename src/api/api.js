@@ -15,6 +15,7 @@ const checkAdminLogin = async (data) => {
     const res = await request('GET', data, testApi + '/admin/info?t=' + new Date().getTime().toString());
     return res;
 }
+// 获取api请求总数
 const apiCount = async (data) => {
     const res = await request('GET', data, testApi + '/statis/api/count');
     return res;
