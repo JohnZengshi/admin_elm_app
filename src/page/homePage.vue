@@ -1,11 +1,11 @@
 <template>
     <div class="homePage">
-        <el-row class="tac">
+        <el-row class="tac flex flex-r">
             <el-col class="tacCol" :span="4">
                 <el-menu default-active="1" class="el-menu-vertical-demo" @select="currentSelect" @open="handleOpen" @close="handleClose"
                     background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" router>
                     <!-- 首页 -->
-                    <el-menu-item index="homePage">
+                    <el-menu-item index="home">
                         <i class="el-icon-menu"></i>
                         <span slot="title">首页</span>
                     </el-menu-item>
@@ -75,6 +75,9 @@
                 topList: []
             }
         },
+        created() {
+            
+        },
         methods: {
             handleOpen(key, keyPath) {
                 // console.log(key, keyPath);
@@ -108,28 +111,31 @@
         .tac {
             height: 100%;
             .tacCol {
+                min-width: 200px;
                 height: 100%;
                 background-color: #eef1f6;
             }
-        }
-        .view {
-            height: 100%;
-            .commonTop {
-                height: 56px;
-                padding: 0 20px;
-                background-color: #eef1f6;
-                position: relative;
-                .dropdown {
-                    position: absolute;
-                    right: 15px;
-                    .avatar {
-                        border-radius: 50% !important;
-                        padding: 15px !important;
+            .view {
+                min-width: 1000px;
+                height: 100%;
+                .commonTop {
+                    height: 56px;
+                    padding: 0 20px;
+                    background-color: #eef1f6;
+                    position: relative;
+                    .dropdown {
+                        position: absolute;
+                        right: 15px;
+                        .avatar {
+                            border-radius: 50% !important;
+                            padding: 15px !important;
+                        }
                     }
-                }
 
+                }
             }
         }
+
     }
 
 </style>
