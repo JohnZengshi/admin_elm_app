@@ -3,6 +3,9 @@ import qs from 'qs';
 const request = async (method, data, url) => {
     if (method == "GET") {
         const res = await axios.get(url, {
+                headers: {
+                    // 'Access-Control-Allow-Origin': '*'
+                },
                 params: data
             })
             .then((res) => {

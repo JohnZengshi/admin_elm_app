@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import ElementUI from 'element-ui';
+import store from './store/'
 import 'element-ui/lib/theme-default/index.css';
 import './common/style/base.css';
 import './common/style/common.css';
@@ -12,5 +13,6 @@ new Vue({
     el: "#app",
     template: "<App/>",
     router,
+    store,
     components: { App }
 })
