@@ -3,11 +3,11 @@
         <el-row :gutter="100" class="homeRow">
             <el-col :span="6">
                 <span class="title">api请求总数：</span>
-                <div class="grid-content bg-purple content" v-model="apiCount">{{apiCount}}</div>
+                <div class="grid-content bg-purple content" v-model="apiAllCount">{{apiAllCount}}</div>
             </el-col>
             <el-col :span="6">
                 <span class="title">今日api请求总数：</span>
-                <div class="grid-content bg-purple content"></div>
+                <div class="grid-content bg-purple content" v-model="apiCount">{{apiCount}}</div>
             </el-col>
             <el-col :span="6">
                 <span class="title">所有用户注册量：</span>
@@ -25,13 +25,17 @@
     export default {
         data() {
             return {
-                apiCount: 0
+                apiAllCount: 0,
+                apiCount:0,
             }
         },
         created() {
             (async () => {
-                const res = await Api.apiCount("");
-                this.apiCount = res.data.count
+                // 获取所有api请求数
+                this.apiAllCount = (await Api.apiAllCount("")).data.count;
+                // 获取当日api请求数
+                const date = this.moment().format("YYYY-MM-DD");
+                this.apiCount = (await Api.apiCount(date)).data.count
             })()
         }
     }
@@ -41,10 +45,10 @@
     .homeRow {
         padding: 50px;
         height: 200px;
-        .title{
+        .title {
             margin: 20px;
         }
-        .content{
+        .content {
             text-align: center;
             line-height: 100px;
             font-size: 30px;
